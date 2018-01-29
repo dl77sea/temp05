@@ -8,8 +8,12 @@
   <link rel="stylesheet" href="./style.css">
 
   <!-- <script defer src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script> -->
-  <!-- <script defer src="./index.js"></script> -->
+  <!-- <script defer src="https://d3js.org/d3.v4.min.js"></script> -->
+  <!-- <script defer src="./d301.js"></script> -->
+
   <!-- <script defer src="./serviceSvg.js"></script> -->
+
+  
   <script defer src="./map01.js"></script>
 
   <style>
@@ -64,6 +68,11 @@
       padding-left: 1rem;
     }
 
+    .line {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 2px;
+    }
 
 
   </style>
@@ -94,10 +103,10 @@
         <li><a href="">Generate Graph</a></li>
       </ul>
     </div>
-
     <div id="map" class="mapstyle"></div>
-    <!-- <svg id="visualisation" width="1000" height="500"></svg> -->
-
+    <!-- <div id="content" style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center"> -->
+    <!-- <svg id="visualisation" width="1000" height="300" style="display: block"></svg> -->
+  <!-- </div> -->
     <div class="foot">
 
       <ul id="map-mode" class="footer-item nav-right">
