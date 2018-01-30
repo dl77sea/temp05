@@ -7,120 +7,37 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="./style.css">
 
-  <!-- <script defer src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script> -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
+
   <!-- <script defer src="https://d3js.org/d3.v4.min.js"></script> -->
   <!-- <script defer src="./d301.js"></script> -->
-
-  <!-- <script defer src="./serviceSvg.js"></script> -->
-
   
-  <script defer src="./map01.js"></script>
-
-  <style>
-    .contain {
-      display: flex;
-      flex-direction: column;
-      height: 100vh
-    }
-
-    .nav {
-      background-color: red;
-    }
-
-    .foot {
-      background-color: green;
-    }
-
-    .foot ul,
-    .nav ul {
-      display: inline;
-      list-style: none;
-    }
-
-    .nav-left {
-      float: left;
-      margin-left: 3rem;
-    }
-
-    .foot ul li,
-    .nav ul li {
-      display: inline-block;
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-    }
-
-    .foot ul li a,
-    .nav ul li a {
-      text-align: center;
-    }
-
-    .nav-right {
-      float: right;
-      margin-right: 3rem;
-    }
-
-    .mapstyle {
-      /*display: flex;*/
-      /*flex-grow: 1;*/
-    }
-
-    li:nth-child(1n+2) {
-      padding-left: 1rem;
-    }
-
-    .line {
-      fill: none;
-      stroke: steelblue;
-      stroke-width: 2px;
-    }
-
-
-  </style>
-
-
+  <script defer src="./index.js"></script>
+  <script defer src="./toolbar/toolbar.js"></script>
+  <script defer src="./contentMap/contentMap.js"></script>
+  <script defer src="./footer/footer.js"></script>
 </head>
 
 
-<body>
-  <div class="contain">
+<body ng-app="app">
+  <!-- <div class="contain"> -->
+    <toolbar></toolbar>
+    <!-- <div id="content-map"> -->
 
-    <div class="nav">
-      <ul class="nav-left">
-        <li><a href="">Lattitude</a>
-          <input maxlength="12" size="12"></input>
-        </li>
-        <li><a href="">Longitude</a>
-          <input maxlength="12" size="12"></input>
-        </li>
-        <li><a href="">Start Year</a>
-          <input maxlength="4" size="4"></input>
-        </li>
-        <li><a href="">End Year</a>
-          <input maxlength="4" size="4"></input>
-        </li>
-      </ul>
-      <ul class="nav-right">
-        <li><a href="">Generate Graph</a></li>
-      </ul>
-    </div>
-    <div id="map" class="mapstyle"></div>
-    <!-- <div id="content" style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center"> -->
-    <!-- <svg id="visualisation" width="1000" height="300" style="display: block"></svg> -->
+
+    <content-map></content-map>
+
+
+  <!-- </div style="display: none"> -->
+    <!-- <svg id="visualisation" width="1000" height="300" style="display: none"></svg> -->
+  <!-- <div id="map" class="mapstyle"></div> -->
+  <!-- <div id="content" style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center"> -->
+
+
   <!-- </div> -->
-    <div class="foot">
-
-      <ul id="map-mode" class="footer-item nav-right">
-        <li><a href="">Load Year-to-Year Data-set</a></li>
-      </ul>
-
-      <ul id="graph-mode" class="nav-right">
-        <li><a href="">Back to Map</a></li>
-        <li><a href="">Download Data</a></li>
-      </ul>
-
-    </div>
-
-  </div>
+  <footer></footer>
+  <!-- <div class="content-push"></div> -->
+  <!-- </div> -->
 </body>
 
 </html>
