@@ -14,8 +14,8 @@ function ContentMap() {
 
 
   ctrl.$onInit = function() {
-    console.log("content map init")
-    
+    console.log("content graph init")
+
     map = new google.maps.Map(document.getElementById('map'), {
       center: {
         lat: 47.0,
