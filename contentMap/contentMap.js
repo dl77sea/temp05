@@ -8,12 +8,12 @@ angular.module('app').component('contentMap', {
 // Toolbar.$inject = ['serviceSvg','serviceCase', 'servicePartition']
 // function Toolbar(serviceSvg, serviceCase, servicePartition) {
 
-function ContentMap() {
+function ContentMap($rootScope) {
   var ctrl = this
   // ctrl.map = null
 
 
-  ctrl.$onInit = function() {
+  ctrl.$onInit = function($rootScope) {    
     console.log("content graph init")
 
     map = new google.maps.Map(document.getElementById('map'), {
