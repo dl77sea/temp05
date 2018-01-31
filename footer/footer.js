@@ -2,8 +2,12 @@ function Footer(contentGraphService, $rootScope) {
   var ctrl = this
 
   ctrl.$onInit = function() {
-    $rootScope.editMode = "map"
     console.log("footer init")
+  }
+
+  ctrl.clickBackToMap = function() {
+    console.log("btm")
+    $rootScope.editMode = "map"
   }
 }
 
@@ -14,4 +18,4 @@ angular.module('app').component('footer', {
   // bindings: {}
 })
 
-Footer.$inject = ['contentGraphService', '$rootScope']
+Footer.$inject = ['contentGraphService','$rootScope']

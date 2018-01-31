@@ -8,7 +8,9 @@
   </form>
 </div> -->
 
-  <div class="nav">
+<div class="nav">
+
+  <div id="input-coords" style="display: inline">
     <ul class="nav-left">
       <li><a href="">Lattitude</a>
         <input maxlength="12" size="12"></input>
@@ -16,6 +18,11 @@
       <li><a href="">Longitude</a>
         <input maxlength="12" size="12"></input>
       </li>
+    </ul>
+  </div>
+
+  <div id="input-years" style="display: inline">
+    <ul>
       <li><a href="">Start Year</a>
         <input maxlength="4" size="4"></input>
       </li>
@@ -23,7 +30,10 @@
         <input maxlength="4" size="4"></input>
       </li>
     </ul>
-    <ul class="nav-right">
-      <li><a ng-click="$ctrl.clickGenGraph()" href="">Generate Graph</a></li>
-    </ul>
   </div>
+
+  <ul class="nav-right">
+    <li><a ng-click="$ctrl.clickGenGraph()" href="">Generate Graph</a></li>
+  </ul>
+
+</div>

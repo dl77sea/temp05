@@ -12,23 +12,19 @@ function Toolbar($rootScope, contentGraphService) {
 
   ctrl.$onInit = function() {
     console.log("toolbar init")
+    $rootScope.editMode = "map"
   }
 
   ctrl.clickGenGraph = function() {
     console.log("click gengraph")
-    contentGraphService.testGraph()
 
     //validate form inputs
 
     //build graph
+    contentGraphService.testGraph()
 
     //switch to show graph
-    if($rootScope.editMode=="map") {
-      $rootScope.editMode = "graph"
-    } else {
-      $rootScope.editMode = "map"
-    }
 
-
+    $rootScope.editMode = "graph"
   }
 }
