@@ -11,7 +11,7 @@ function ContentMap($rootScope) {
   var ctrl = this
   // ctrl.map = null
 
-  ctrl.gridInc = 0.0625
+  ctrl.gridInc = 0.0625/2
 
   ctrl.$onInit = function($rootScope) {
     console.log("content graph init")
