@@ -4,7 +4,6 @@ angular.module('app').component('contentMap', {
   // bindings: {}
 })
 
-
 // Toolbar.$inject = ['serviceSvg','serviceCase', 'servicePartition']
 // function Toolbar(serviceSvg, serviceCase, servicePartition) {
 
@@ -12,8 +11,9 @@ function ContentMap($rootScope) {
   var ctrl = this
   // ctrl.map = null
 
+  ctrl.gridInc = 0.0625
 
-  ctrl.$onInit = function($rootScope) {    
+  ctrl.$onInit = function($rootScope) {
     console.log("content graph init")
 
     map = new google.maps.Map(document.getElementById('map'), {
@@ -24,18 +24,44 @@ function ContentMap($rootScope) {
       zoom: 8
     });
 
-    let gridX = 40
-    let gridY = 30
-    let latStart = 46.5 //45.65625
-    let lonStart = -121.0 //-120.90625
-    let gridInc = 0.0625
+    let gridX = 18
+    let gridY = 18
+    let latStartCen = 48.09375
+    let lonStartCen = -122.7812
+    let gridInc = ctrl.gridInc
 
+    //row
     for (let i = 0; i < gridY; i++) {
+      //square
       for (let j = 0; j < gridX; j++) {
-        let n = latStart + (gridInc * i)
-        let s = n + gridInc
-        let e = lonStart - (gridInc * j)
-        let w = e - gridInc
+        //lon decreases to east
+        //lat decreases to south
+
+        // let swCornerLat = latStartCen - gridInc
+        // let swCornerLng = lonStartCen - gridInc
+        // let neCornerLat = latStartCen + gridInc
+        // let neCornerLng = lonStartCen + gridInc
+
+        //this block produces a correct grid square
+        // let swCornerLat = (latStartCen - gridInc) + (i*(gridInc*2))
+        // let swCornerLng = (lonStartCen - gridInc) + (j*(gridInc*2))
+        // let neCornerLat = (latStartCen + gridInc) + (i*(gridInc*2))
+        // let neCornerLng = (lonStartCen + gridInc) + (j*(gridInc*2))
+        //
+        // let swCorner = {lat: swCornerLat, lng: swCornerLng}
+        // let neCorner = {lat: neCornerLat, lng: neCornerLng}
+
+        let swCornerLat = (latStartCen - gridInc) - (i*(gridInc*2))
+        let swCornerLng = (lonStartCen - gridInc) + (j*(gridInc*2))
+
+        let neCornerLat = (latStartCen + gridInc) - (i*(gridInc*2))
+        let neCornerLng = (lonStartCen + gridInc) + (j*(gridInc*2))
+
+        let swCorner = {lat: swCornerLat, lng: swCornerLng}
+        let neCorner = {lat: neCornerLat, lng: neCornerLng}
+
+        let square = new google.maps.LatLngBounds(swCorner, neCorner)
+        console.log(square)
 
         let tile = new google.maps.Rectangle({
           strokeColor: '#A0A0A0',
@@ -45,12 +71,13 @@ function ContentMap($rootScope) {
           fillColor: '#FF0000',
           fillOpacity: 0.0,
           map: map,
-          bounds: {
-            north: n,
-            south: s, //+0.0625
-            east: e,
-            west: w //-0.0625
-          }
+          bounds: square
+          // bounds: {
+          //   swCornerLat: swCornerLat,
+          //   swCornerLng: swCornerLng,
+          //   neCornerLat: neCornerLat,
+          //   neCornerLng: neCornerLng
+          // }
         });
         tile.addListener('click', ctrl.cbGrid);
         tile.addListener('mouseover', function(event) {
@@ -60,6 +87,7 @@ function ContentMap($rootScope) {
             strokeWeight: 2.0
           })
         })
+
         tile.addListener('mouseout', function(event) {
           tile.setOptions({
             strokeColor: '#A0A0A0',
@@ -69,7 +97,6 @@ function ContentMap($rootScope) {
         })
       }
     }
-
   }
 
   // google.maps.event.addDomListener(window, 'load', ctrl.mapInit);
@@ -80,10 +107,16 @@ function ContentMap($rootScope) {
 
   ctrl.cbGrid = function(event) {
     let vertices = this.getBounds()
-    console.log(vertices.getSouthWest().lat())
-    console.log(vertices.getSouthWest().lng())
-    console.log(vertices.getNorthEast().lat())
-    console.log(vertices.getNorthEast().lng())
+    console.log("sw corner: ", vertices.getSouthWest().lat())
+    console.log("sw corner: ", vertices.getSouthWest().lng())
+    console.log("ne corner: ", vertices.getNorthEast().lat())
+    console.log("ne corner: ", vertices.getNorthEast().lng())
+
+    //lon decreases to east
+    //lat decreases to south
+
+    console.log("cen lat: ", vertices.getSouthWest().lat() + ctrl.gridInc)
+    console.log("cen lng: ", vertices.getSouthWest().lng() + ctrl.gridInc)
   }
 
 }
