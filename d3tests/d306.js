@@ -50,11 +50,11 @@ var gPadding = 0.05
 
 var startYear = 2014
 var endYear = 2090
-
+var numYears = (endYear + 1) - startYear
 /***figure out a better place to put this***/
 // Scale the range of the data 2014-2090 (evenutally, user selected)
 let arrYears = []
-for(let i=startYear; i <= endYear; i++) {
+for (let i = startYear; i <= endYear; i++) {
   arrYears.push(parseTime(i))
 }
 
@@ -75,7 +75,15 @@ gMinMax = d3.extent(arrYears, function(d) {
 //--------------------------------------------
 
 // y.domain([minMax[0] - gPadding, minMax[1] + gPadding]);
-y.domain([0.65, 1.25]);
+// y.domain([0.65, 1.25]);
+
+//scale on y
+// let minMax = d3.extent(data, function(d) {
+//   return d.val;
+// })
+// console.log("mm ",minMax)
+//works here y.domain([-0.05, 1.0]);
+// y.domain([0.65, 1.25]);
 
 
 d3.csv("ratio00.csv", function(error, data) {
@@ -93,41 +101,43 @@ d3.csv("ratio00.csv", function(error, data) {
     }
     valueLines.push(valueLine)
   }
+  console.log("valueLines: ", valueLines)
+  // get probability (for each date, in each line, count how many values are above thresh and divide by total valuelines to get y for that date)
+  console.log("numYears: ", numYears)
 
-  // data = valueLines[0]
-
-  colorInc = 0;
-  colors = ["line3"]
-  for (data of valueLines) {
-
-    // format the data
-    data.forEach(function(d) {
-      // d.year = parseTime(d.year.toString());
-      d.year = parseTime(d.year);
-      d.val = parseFloat(d.val);
-    });
-
-    // Add the valueline path.
-    if (colorInc === 3) {
-      colorClass = "line3"
-      console.log("testLine: ", data)
-
-    } else {
-      colorClass = "line"
+  //for each "year slot" check all values in all lines for that year
+  let probLine = []
+  for (i = 0; i < numYears; i++) {
+    let valsAbove = 0;
+    for (valueLine of valueLines) {
+      if(valueLine[i].val > gThresh) {
+        valsAbove++
+      }
     }
-    colorInc++
-    svg.append("path")
-      .data([data])
-      .attr("class", colorClass)
-      .attr("d", valueline);
+    // console.log(valueLine[i].year)
+    let yearVal = parseTime(parseInt(valueLine[i].year))
+    //why can't i call date key year?
+    probLine.push ({year: yearVal, val: valsAbove/valueLines.length})
   }
+  console.log("probLine: ", probLine)
+  //plot mean line
+  data = probLine
 
-  // svg.append("path")
-  //     .attr("class", "line")
-  //     .attr("d", function(d) { return line(d.values); })
-  //     .style("stroke", function(d) { return z(d.id); });
+  console.log("prob line: ", data)
 
-  /*find way to move this outside of read block*/
+  // find out why this doesn't change numbers on y axis
+  // let minMax = d3.extent(data, function(d) {
+  //   return d.val;
+  // })
+  // console.log("mm ",minMax)
+  // y.domain([minMax[0], minMax[1]]);
+
+  y.domain([0, 1.0]);
+  // Add the valueline path.
+  svg.append("path")
+    .data([data])
+    .attr("class", "line2")
+    .attr("d", valueline);
 
 });
 // Add thereshold line
@@ -148,45 +158,3 @@ svg.append("g")
   .call(d3.axisLeft(y).ticks(20));
 
 //mean line
-
-let meanLine = []
-d3.csv("ratiomean.csv", function(error, data) {
-  if (error) throw error;
-
-  //build mean line
-  for (obj of data) {
-    meanLine.push({
-      year: obj[""],
-      val: obj[0]
-    })
-  }
-  //format values in valueLine
-  for (obj of meanLine) {
-    obj.year = parseTime(obj.year)
-    obj.val = parseFloat(obj.val)
-  }
-
-  //plot mean line
-  data = meanLine
-  console.log("mean linee: ", data)
-
-  // Add the valueline path.
-  svg.append("path")
-    .data([data])
-    .attr("class", "line2")
-    .attr("d", valueline);
-
-  // for (data of meanLine) {
-  // Scale the range of the data
-  // x.domain(d3.extent(data, function(d) {
-  //   return d.year;
-  // }));
-  //
-  // let minMax = d3.extent(data, function(d) {
-  //   return d.val;
-  // })
-  //
-  // y.domain([minMax[0] - gPadding, minMax[1] + gPadding]);
-
-
-})
