@@ -33,15 +33,23 @@ function contentGraphService() {
       .y(function(d) {
         return vm.y(d.val);
       });
-    vm.svg = d3.select("#d3-content").append("svg")
+    vm.svgRatios = d3.select("#d3ratios").append("svg")
       .attr("width", width + vm.margin.left + vm.margin.right)
       .attr("height", height + vm.margin.top + vm.margin.bottom)
       .append("g")
       .attr("transform",
         "translate(" + vm.margin.left + "," + vm.margin.top + ")");
+
+    vm.svgProbability = d3.select("#d3probability").append("svg")
+      .attr("width", width + vm.margin.left + vm.margin.right)
+      .attr("height", height + vm.margin.top + vm.margin.bottom)
+      .append("g")
+      .attr("transform",
+        "translate(" + vm.margin.left + "," + vm.margin.top + ")");
+
   }
   vm.updateRatiosGraph = function() {
-
+    vm.clearGraphs()
     vm.gMinMax;
     vm.gThresh = 1
     vm.gPadding = 0.05
@@ -50,7 +58,7 @@ function contentGraphService() {
     vm.endYear = 2090
 
     vm.arrYears = []
-    for(let i=vm.startYear; i <= vm.endYear; i++) {
+    for (let i = vm.startYear; i <= vm.endYear; i++) {
       vm.arrYears.push(vm.parseTime(i))
     }
 
@@ -92,15 +100,14 @@ function contentGraphService() {
         });
 
         // Add the valueline path.
-
-        vm.svg.append("path")
+        vm.svgRatios.append("path")
           .data([data])
           .attr("class", "line")
           .attr("d", vm.valueline);
       }
     });
     // Add thereshold line
-    vm.svg.append("line")
+    vm.svgRatios.append("line")
       .attr("class", "threshline")
       .attr("x1", vm.x(vm.gMinMax[0]))
       .attr("y1", vm.y(vm.gThresh))
@@ -108,12 +115,12 @@ function contentGraphService() {
       .attr("y2", vm.y(vm.gThresh))
 
     // Add the X Axis
-    vm.svg.append("g")
+    vm.svgRatios.append("g")
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(vm.x).ticks(20));
 
     // Add the Y Axis
-    vm.svg.append("g")
+    vm.svgRatios.append("g")
       .call(d3.axisLeft(vm.y).ticks(20));
 
     //mean line
@@ -138,23 +145,24 @@ function contentGraphService() {
       //plot mean line
       data = meanLine
       // Add the valueline path.
-      vm.svg.append("path")
+      vm.svgRatios.append("path")
         .data([data])
         .attr("class", "meanline")
         .attr("d", vm.valueline);
     })
   }
 
-  vm.clearRatiosGraph = function() {
-
-  }
-
   vm.clearGraphs = function() {
-    console.log("clear testgraph",vm.svg._groups[0][0].lastChild)
+    console.log("clear testgraph", vm.svgRatios._groups[0][0].lastChild)
 
-    while (vm.svg._groups[0][0].lastChild) {
+    while (vm.svgRatios._groups[0][0].lastChild) {
       console.log("inside clearGraphs")
-      vm.svg._groups[0][0].removeChild(vm.svg._groups[0][0].lastChild);
+      vm.svgRatios._groups[0][0].removeChild(vm.svgRatios._groups[0][0].lastChild);
     }
+    while (vm.svgProbability._groups[0][0].lastChild) {
+      console.log("inside clearGraphs")
+      vm.svgProbability._groups[0][0].removeChild(vm.svgProbability._groups[0][0].lastChild);
+    }
+
   }
 }
