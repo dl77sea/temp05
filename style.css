@@ -133,6 +133,16 @@ li:nth-child(1n+2) {
   stroke: steelblue;
   stroke-width: 2px;
 }
+.meanline {
+  fill: none;
+  stroke: orange;
+  stroke-width: 2px;
+}
+.threshline {
+  fill: none;
+  stroke: red;
+  stroke-width: 2px;
+}
 
 .push-content-top {
   /*display: block;*/

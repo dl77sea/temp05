@@ -21,8 +21,8 @@ function Toolbar($rootScope, contentGraphService) {
     //validate form inputs
 
     //build graph
+
     contentGraphService.updateRatiosGraph()
-    contentGraphService.testGraph()
     //switch to show graph
 
     $rootScope.editMode = "graph"

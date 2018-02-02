@@ -13,7 +13,7 @@ function ContentGraph($rootScope, contentGraphService) {
 
   ctrl.$onInit = function() {
     console.log("content graph init")
-    contentGraphService.graphInit()
+    contentGraphService.initRatiosGraph()
   }
 }
 ContentGraph.$inject = ['$rootScope', 'contentGraphService']
