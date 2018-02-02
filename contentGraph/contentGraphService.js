@@ -1,19 +1,20 @@
 // functions to partition case tree (serviceCase)
 angular.module('app').service('contentGraphService', contentGraphService)
 // servicePartition.$inject = ['contentGraphService', 'contentGraphService']
-
+// contentGraphService.$inject = ['$rootScope']
 function contentGraphService() {
   var vm = this
-
+  vm.threshold = null;
   vm.initRatiosGraph = function() {
+
     vm.margin = {
         top: 5,
         right: 50,
         bottom: 20,
         left: 50
       },
-      width = 600 - vm.margin.left - vm.margin.right,
-      height = 250 - vm.margin.top - vm.margin.bottom;
+      width = 800 - vm.margin.left - vm.margin.right,
+      height = 280 - vm.margin.top - vm.margin.bottom;
 
     // parse the date / time
     vm.parseTime = d3.timeParse("%Y");
@@ -49,10 +50,11 @@ function contentGraphService() {
   }
 
   vm.updateRatiosGraph = function() {
+    console.log("hello from updateRatiosGraph ", vm.threshold)
     vm.clearGraphs()
     vm.gMinMax;
-    vm.gThresh = 1
-    vm.gPadding = 0.05
+    vm.gThresh = vm.threshold
+    // vm.gPadding = 0.05
 
     vm.startYear = 2014
     vm.endYear = 2090
@@ -153,8 +155,8 @@ function contentGraphService() {
 
   vm.updateProbabilityGraph = function() {
     // vm.clearGraphs()
-      let width = 600 - vm.margin.left - vm.margin.right
-      let height = 250 - vm.margin.top - vm.margin.bottom
+      let width = 800 - vm.margin.left - vm.margin.right
+      let height = 280 - vm.margin.top - vm.margin.bottom
 
     // parse the date / time
     vm.parseTimeProb = d3.timeParse("%Y");
@@ -175,7 +177,7 @@ function contentGraphService() {
       });
 
     vm.gMinMaxProb;
-    vm.gThreshProb = 1
+    vm.gThreshProb = vm.threshold
     vm.gPaddingProb = 0.05
 
     vm.startYearProb = 2014

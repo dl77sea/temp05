@@ -10,29 +10,44 @@
 
 <div class="nav">
   <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
-  <div id="input-years" style="display: inline">
-    <ul>
-      <li><a href="">Start Year</a>
-        <input ng-model="$root.startYearIn" maxlength="4" size="4"></input>
-      </li>
-      <li><a href="">End Year</a>
-        <input ng-model="$root.endYearIn" maxlength="4" size="4"></input>
-      </li>
-    </ul>
-  </div>
-  <!-- ng-show="$root.coords == true" Latitude: {{$root.lat}}, Longitude: {{$root.lng}}-->
-  <div id="coord-display"></div>
+    <div id="input-years" style="display: inline">
+      <ul>
 
-  <!-- <div id="input-coords" style="display: inline" ng-show="$root.lat !== null && $root.lng !== null">
+        <li><a href="">Start Year</a>
+          <input ng-model="$root.startYearIn" maxlength="4" size="4"></input>
+        </li>
+
+        <li><a href="">End Year</a>
+          <input ng-model="$root.endYearIn" maxlength="4" size="4"></input>
+        </li>
+
+        <li><a style="margin-left: 1rem;" href="">Threshold</a>
+          <input ng-model="$ctrl.threshold" maxlength="4" size="4"></input>
+        </li>
+
+        <!-- <div style="display: inline-block; float: left; margin-left: 1rem;">
+          <a href="">Threshold</a>
+          <input ng-model="$ctrl.threshold" maxlength="4" size="4"></input>
+        </div> -->
+
+      </ul>
+    </div>
+    <!-- ng-show="$root.coords == true" Latitude: {{$root.lat}}, Longitude: {{$root.lng}} -->
+
+    <div id="coord-display" class="coords"><a href=""></a></div>
+
+
+
+    <!-- <div id="input-coords" style="display: inline" ng-show="$root.lat !== null && $root.lng !== null">
     <ul class="nav-left">
       <li><a href="">Latitude: {{$root.lat}}</a></li>
       <li><a href="">Longitude {{$root.lng}}</a></li>
     </ul>
   </div> -->
 
-  <ul class="nav-right-margin-only">
-    <li><a ng-click="$ctrl.clickGenGraph()" href="">Generate Graph</a></li>
-  </ul>
-</div>
+    <ul class="nav-right-margin-only">
+      <li><a ng-click="$ctrl.clickGenGraph()" class="click" href="">Generate Graph</a></li>
+    </ul>
+  </div>
 
 </div>

@@ -1,14 +1,16 @@
 <div ng-show="$root.editMode=='graph'" class="contain" style="align-items: center">
   <div class="push-content-top"></div>
-  {{$root.startYear}}-{{$root.endYear}}
+  <!-- {{$root.startYear}}-{{$root.endYear}} -->
   <div class="graph-container">
-    <div id="d3ratios" style="background-color: orange"></div>
-    <div class="graph-title">{{$root.graphRatiosTitle}} for {{$root.lat}}, {{$root.lng}}</div>
+    <div id="d3ratios"></div>
+    <!-- <div class="graph-title">{{$root.graphRatiosTitle}} for {{$root.lat}}, {{$root.lng}}</div> -->
+    <div class="graph-title">{{$root.graphRatiosTitle}}</div>
   </div>
 
   <div class="graph-container">
-    <div id="d3probability" style="background-color: yellow"></div>
-    <div class="graph-title">{{$root.graphProbabilityTitle}} for {{$root.lat}}, {{$root.lng}}</div>
+    <div id="d3probability"></div>
+    <!-- <div class="graph-title">{{$root.graphProbabilityTitle}} for {{$root.lat}}, {{$root.lng}}</div> -->
+    <div class="graph-title">{{$root.graphProbabilityTitle}}</div>
   </div>
 
   <div class="push-content-bottom"></div>
