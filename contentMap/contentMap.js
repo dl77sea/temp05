@@ -127,7 +127,14 @@ function ContentMap($rootScope, contentGraphService) {
     //47.65625
     //-122.28120000000001
     console.log("this: ", cenLat, cenLng)
-    if((cenLat == 47.65625) && (cenLng == (-122.28120000000001))) {
+    $rootScope.lat = cenLat.toFixed(5)
+    $rootScope.lng = cenLng.toFixed(5)
+    console.log($rootScope.coords)
+    console.log(document.getElementById('coord-display'))
+    document.getElementById('coord-display').innerHTML = "Latitude: "+$rootScope.lat+", "+"Longitude: "+$rootScope.lng
+    $rootScope.coords = true;
+    console.log($rootScope.coords)
+    if((cenLat == 47.65625) && (cenLng.toFixed(4) == (-122.2812))) {
       ctrl.hello = "hello"
       contentGraphService.clickedCoords = {lat: cenLat, lng: cenLng}
       console.log("hello")

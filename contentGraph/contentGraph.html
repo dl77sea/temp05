@@ -1,12 +1,15 @@
-
-
-
 <div ng-show="$root.editMode=='graph'" class="contain" style="align-items: center">
   <div class="push-content-top"></div>
-  <!-- <div id="map" class="map-style"></div> -->
-  <!-- <svg id="visualisation" width="700" height="300" style="display: none"></svg> -->
-  <!-- <div style="background-color: grey; height: 100%;"></div> -->
-  <div id="d3ratios" style="background-color: orange"></div>
-  <div id="d3probability" style="background-color: yellow"></div>
+  {{$root.startYear}}-{{$root.endYear}}
+  <div class="graph-container">
+    <div id="d3ratios" style="background-color: orange"></div>
+    <div class="graph-title">{{$root.graphRatiosTitle}} for {{$root.lat}}, {{$root.lng}}</div>
+  </div>
+
+  <div class="graph-container">
+    <div id="d3probability" style="background-color: yellow"></div>
+    <div class="graph-title">{{$root.graphProbabilityTitle}} for {{$root.lat}}, {{$root.lng}}</div>
+  </div>
+
   <div class="push-content-bottom"></div>
 </div>

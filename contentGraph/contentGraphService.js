@@ -15,7 +15,6 @@ function contentGraphService() {
       width = 600 - vm.margin.left - vm.margin.right,
       height = 250 - vm.margin.top - vm.margin.bottom;
 
-
     // parse the date / time
     vm.parseTime = d3.timeParse("%Y");
     // set the ranges
@@ -48,6 +47,7 @@ function contentGraphService() {
         "translate(" + vm.margin.left + "," + vm.margin.top + ")");
 
   }
+
   vm.updateRatiosGraph = function() {
     vm.clearGraphs()
     vm.gMinMax;
@@ -124,7 +124,6 @@ function contentGraphService() {
       .call(d3.axisLeft(vm.y).ticks(20));
 
     //mean line
-
     let meanLine = []
     d3.csv("./contentGraph/ratiomean.csv", function(error, data) {
       if (error) throw error;
@@ -152,6 +151,118 @@ function contentGraphService() {
     })
   }
 
+  vm.updateProbabilityGraph = function() {
+    // vm.clearGraphs()
+      let width = 600 - vm.margin.left - vm.margin.right
+      let height = 250 - vm.margin.top - vm.margin.bottom
+
+    // parse the date / time
+    vm.parseTimeProb = d3.timeParse("%Y");
+    // set the ranges
+    vm.xProb = d3.scaleTime().range([0, width]);
+    vm.yProb = d3.scaleLinear().range([height, 0]);
+
+    // var threshX = d3.scaleTime().range([0, width]);
+    // var threshY = d3.scaleLinear().range([height, 0]);
+
+    // define the line
+    vm.valuelineProb = d3.line()
+      .x(function(d) {
+        return vm.xProb(d.year);
+      })
+      .y(function(d) {
+        return vm.yProb(d.val);
+      });
+
+    vm.gMinMaxProb;
+    vm.gThreshProb = 1
+    vm.gPaddingProb = 0.05
+
+    vm.startYearProb = 2014
+    vm.endYearProb = 2090
+    vm.numYears = (vm.endYear + 1) - vm.startYear
+    vm.arrYearsProb = []
+    for (let i = vm.startYearProb; i <= vm.endYearProb; i++) {
+      vm.arrYearsProb.push(vm.parseTimeProb(i))
+    }
+
+    vm.xProb.domain(d3.extent(vm.arrYearsProb, function(d) {
+      return d;
+    }));
+
+    vm.gMinMaxProb = d3.extent(vm.arrYearsProb, function(d) {
+      return d;
+    })
+
+    // y.domain([minMax[0] - gPadding, minMax[1] + gPadding]);
+    vm.yProb.domain([0.0, 1.0]);
+    d3.csv("./contentGraph/ratio00.csv", function(error, data) {
+      if (error) throw error;
+
+      //for each object, make it an array as above for each value line
+      let valueLines = []
+      for (valueLineObj of data) {
+        let valueLine = []
+        for (key in valueLineObj) {
+          if (key !== "") valueLine.push({
+            year: key,
+            val: valueLineObj[key]
+          })
+        }
+        valueLines.push(valueLine)
+      }
+
+      // get probability (for each date, in each line, count how many values are above thresh and divide by total valuelines to get y for that date)
+      //for each "year slot" check all values in all lines for that year
+      let probLine = []
+      for (i = 0; i < vm.numYears; i++) {
+        console.log("Snarf")
+        let valsAbove = 0;
+        for (valueLine of valueLines) {
+          if (valueLine[i].val > vm.gThreshProb) {
+            valsAbove++
+          }
+        }
+        // console.log(valueLine[i].year)
+        let yearVal = vm.parseTimeProb(parseInt(valueLine[i].year))
+        //why can't i call date key year?
+        probLine.push({
+          year: yearVal,
+          val: valsAbove / valueLines.length
+        })
+      }
+
+      //plot mean line
+      data = probLine
+      console.log("probline: ", probLine)
+      // vm.yProb.domain([0, 1.0]);
+
+      // Add the valueline path.
+      vm.svgProbability.append("path")
+        .data([data])
+        .attr("class", "line")
+        .attr("d", vm.valuelineProb);
+
+    });
+
+    // Add thereshold line
+    vm.svgProbability.append("line")
+      .attr("class", "line")
+      .attr("x1", vm.xProb(vm.gMinMaxProb[0]))
+      .attr("y1", vm.yProb(vm.gThreshProb))
+      .attr("x2", vm.xProb(vm.gMinMaxProb[1]))
+      .attr("y2", vm.yProb(vm.gThreshProb))
+
+    // Add the X Axis
+    vm.svgProbability.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(vm.xProb).ticks(20));
+
+    // Add the Y Axis
+    vm.svgProbability.append("g")
+      .call(d3.axisLeft(vm.yProb).ticks(20));
+  }
+
   vm.clearGraphs = function() {
     console.log("clear testgraph", vm.svgRatios._groups[0][0].lastChild)
 
@@ -165,4 +276,6 @@ function contentGraphService() {
     }
 
   }
+
+
 }

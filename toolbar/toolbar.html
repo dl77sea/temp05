@@ -9,31 +9,30 @@
 </div> -->
 
 <div class="nav">
-
-  <div id="input-coords" style="display: inline">
-    <ul class="nav-left">
-      <li><a href="">Lattitude</a>
-        <input maxlength="12" size="12"></input>
-      </li>
-      <li><a href="">Longitude</a>
-        <input maxlength="12" size="12"></input>
-      </li>
-    </ul>
-  </div>
-
+  <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
   <div id="input-years" style="display: inline">
     <ul>
       <li><a href="">Start Year</a>
-        <input maxlength="4" size="4"></input>
+        <input ng-model="$root.startYearIn" maxlength="4" size="4"></input>
       </li>
       <li><a href="">End Year</a>
-        <input maxlength="4" size="4"></input>
+        <input ng-model="$root.endYearIn" maxlength="4" size="4"></input>
       </li>
     </ul>
   </div>
+  <!-- ng-show="$root.coords == true" Latitude: {{$root.lat}}, Longitude: {{$root.lng}}-->
+  <div id="coord-display"></div>
 
-  <ul class="nav-right">
+  <!-- <div id="input-coords" style="display: inline" ng-show="$root.lat !== null && $root.lng !== null">
+    <ul class="nav-left">
+      <li><a href="">Latitude: {{$root.lat}}</a></li>
+      <li><a href="">Longitude {{$root.lng}}</a></li>
+    </ul>
+  </div> -->
+
+  <ul class="nav-right-margin-only">
     <li><a ng-click="$ctrl.clickGenGraph()" href="">Generate Graph</a></li>
   </ul>
+</div>
 
 </div>
