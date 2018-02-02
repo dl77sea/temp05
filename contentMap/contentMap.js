@@ -6,15 +6,15 @@ angular.module('app').component('contentMap', {
 
 // Toolbar.$inject = ['serviceSvg','serviceCase', 'servicePartition']
 // function Toolbar(serviceSvg, serviceCase, servicePartition) {
-
-function ContentMap($rootScope) {
+ContentMap.$inject = ['$rootScope', 'contentGraphService']
+function ContentMap($rootScope, contentGraphService) {
   var ctrl = this
   // ctrl.map = null
 
   ctrl.gridInc = 0.0625/2
 
   ctrl.$onInit = function($rootScope) {
-    console.log("content graph init")
+    console.log("content map init")
 
     map = new google.maps.Map(document.getElementById('map'), {
       center: {
@@ -107,6 +107,10 @@ function ContentMap($rootScope) {
 
   ctrl.cbGrid = function(event) {
     let vertices = this.getBounds()
+
+    let cenLat = vertices.getSouthWest().lat() + ctrl.gridInc
+    let cenLng = vertices.getSouthWest().lng() + ctrl.gridInc
+
     console.log("sw corner: ", vertices.getSouthWest().lat())
     console.log("sw corner: ", vertices.getSouthWest().lng())
     console.log("ne corner: ", vertices.getNorthEast().lat())
@@ -114,9 +118,20 @@ function ContentMap($rootScope) {
 
     //lon decreases to east
     //lat decreases to south
-
     console.log("cen lat: ", vertices.getSouthWest().lat() + ctrl.gridInc)
     console.log("cen lng: ", vertices.getSouthWest().lng() + ctrl.gridInc)
+
+    //call graph (eventually with correctly named cen point)
+
+    //temporary test for wiring to graph component
+    //47.65625
+    //-122.28120000000001
+    console.log("this: ", cenLat, cenLng)
+    if((cenLat == 47.65625) && (cenLng == (-122.28120000000001))) {
+      ctrl.hello = "hello"
+      contentGraphService.clickedCoords = {lat: cenLat, lng: cenLng}
+      console.log("hello")
+    }
   }
 
 }

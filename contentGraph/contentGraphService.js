@@ -5,10 +5,12 @@ angular.module('app').service('contentGraphService', contentGraphService)
 function contentGraphService() {
   var vm = this
 
-  vm.testGraph = function() {
-    /*start d3 append*/
-    // set the dimensions and margins of the graph
-    // var margin = {top: 20, right: 50, bottom: 30, left: 50},
+  //create SVG element and set it's scaling for d3
+  vm.graphInit = function() {
+    console.log("graphInit from service")
+    vm.clickedCoords = {}
+    // // set the dimensions and margins of the graph
+    // // var margin = {top: 20, right: 50, bottom: 30, left: 50},
     vm.margin = {
         top: 20,
         right: 20,
@@ -18,14 +20,14 @@ function contentGraphService() {
       width = 300 - vm.margin.left - vm.margin.right,
       height = 200 - vm.margin.top - vm.margin.bottom;
 
-    // parse the date / time
-    // var parseTime = d3.timeParse("%d-%b-%y");
+    // // parse the date / time
+    // // var parseTime = d3.timeParse("%d-%b-%y");
     vm.parseTime = d3.timeParse("%Y");
-    // set the ranges
+    // // set the ranges
     vm.x = d3.scaleTime().range([0, width]);
     vm.y = d3.scaleLinear().range([height, 0]);
 
-    // define the line
+    // // define the line
     vm.valueline = d3.line()
       .x(function(d) {
         return vm.x(d.snarf);
@@ -34,28 +36,51 @@ function contentGraphService() {
         return vm.y(d.blarf);
       });
 
-    // append the svg obgect to the body of the page
-    // appends a 'group' element to 'svg'
-    // moves the 'group' element to the top left margin
-    // var svg = d3.select("body").append("svg")
+    // // append the svg obgect to the body of the page
+    // // appends a 'group' element to 'svg'
+    // // moves the 'group' element to the top left margin
+    // // var svg = d3.select("body").append("svg")
     vm.svg = d3.select("#d3-content").append("svg")
       .attr("width", width + vm.margin.left + vm.margin.right)
       .attr("height", height + vm.margin.top + vm.margin.bottom)
       .append("g")
       .attr("transform",
         "translate(" + vm.margin.left + "," + vm.margin.top + ")");
+  }
 
-    // Get the data
-    // d3.csv("test00.csv", function(error, data) {
+  vm.updateRatiosGraph = function() {
+
+  }
+
+  vm.clearRatiosGraph = function() {
+
+  }
+
+  vm.clearTestGraph = function() {
+    console.log("clear testgraph",vm.svg._groups[0][0].lastChild)
+
+    while (vm.svg._groups[0][0].lastChild) {
+      console.log("inside clearTestGraph")
+      vm.svg._groups[0][0].removeChild(vm.svg._groups[0][0].lastChild);
+    }
+  }
+
+  vm.testGraph = function() {
+    console.log("testgraph")
+    console.log("contentGraphService clickedCoords: ", vm.clickedCoords)
+    vm.clearTestGraph()
+    // /*start d3 append*/
+    // // Get the data
+    // // d3.csv("test00.csv", function(error, data) {
     d3.csv("test00.csv", function(error, data) {
-      // if (error) throw error;
-
+      //   // if (error) throw error;
+      //
       // format the data
-      // data.forEach(function(d) {
-      //     d.snarf = parseTime(d.snarf);
-      //     console.log("parseTime from forEach: ", d.snarf)
-      //     d.blarf = +d.blarf;
-      // });
+      data.forEach(function(d) {
+        d.snarf = vm.parseTime(d.snarf);
+        console.log("parseTime from forEach: ", d.snarf)
+        d.blarf = +d.blarf;
+      });
 
       data = [{
         snarf: "2012",
@@ -100,6 +125,6 @@ function contentGraphService() {
       vm.svg.append("g")
         .call(d3.axisLeft(vm.y).ticks(2));
     });
-    /*end d3 append*/
+    // /*end d3 append*/
   }
 }
